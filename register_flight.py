@@ -15,17 +15,11 @@ class FlightRegistration(ft.UserControl):
         self.submit_flight = ft.ElevatedButton("Submit Flight", on_click=self.store_in_inventory)
 
     def store_in_inventory(self,e):
-        fields = ['Airplane Name','Airplane Serial Code','Airplane Model','Starting Airport','Ending Airport','Time Duration (hrs)']
         row = [self.airplane_name.value,self.airplane_serialCode.value,self.airplane_model.value,self.start_airport.value,self.end_airport.value,self.time_duration.value]
         filename = "airlines_data.csv"
         with open(filename,'a') as csvfile:
             # creating a csv writer object
             csvwriter = csv.writer(csvfile)
-
-            if self.count == 0:
-                # writing the fields
-                csvwriter.writerow(fields)
-                self.count += 1
 
             # writing the data rows
             csvwriter.writerow(row)
