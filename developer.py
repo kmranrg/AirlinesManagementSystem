@@ -11,4 +11,4 @@ class DeveloperDetails(ft.UserControl):
         developer_name = ft.Text("Made by SmartGurucool",style='titleLarge',color=ft.colors.BLACK87)
         copyright_details = ft.Text("Copyright © 2023",style='titleMedium',color=ft.colors.BLUE_GREY_900)
         rights = ft.Text("All Rights Reserved",style='titleMedium',color=ft.colors.BLUE_GREY_900)
-        return ft.Column([ft.Container(height=120),developer_photo,ft.Container(height=20),developer_name,copyright_details,rights],horizontal_alignment="center")
+        return ft.Column([ft.Container(height=180),developer_photo,ft.Container(height=20),developer_name,copyright_details,rights],horizontal_alignment="center")

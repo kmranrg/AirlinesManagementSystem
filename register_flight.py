@@ -11,7 +11,7 @@ class FlightRegistration(ft.UserControl):
         self.airplane_model = ft.TextField(hint_text="model",width=300,border_radius=25,border_color=ft.colors.BLUE_900)
         self.start_airport = ft.TextField(hint_text="starting airport",width=300,border_radius=25,border_color=ft.colors.BLUE_900)
         self.end_airport = ft.TextField(hint_text="ending airport",width=300,border_radius=25,border_color=ft.colors.BLUE_900)
-        self.time_duration = ft.TextField(hint_text="time duration (in hrs)",width=300,border_radius=25,border_color=ft.colors.BLUE_900)
+        self.time_duration = ft.TextField(hint_text="time duration (hh:mm)",width=300,border_radius=25,border_color=ft.colors.BLUE_900)
         self.submit_flight = ft.ElevatedButton("Submit Flight", on_click=self.store_in_inventory)
 
     def store_in_inventory(self,e):
