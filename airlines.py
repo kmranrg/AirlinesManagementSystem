@@ -1,7 +1,9 @@
 import flet as ft
 from register_flight import FlightRegistration
 from show_flights import ShowFlights
+from developer import DeveloperDetails
 import csv
+import random
 
 def main(page: ft.Page):
 	page.title = "Airlines Management System"
@@ -31,6 +33,9 @@ def main(page: ft.Page):
 		elif e.control.selected_index == 1:
 			page.clean()
 			show_flights()
+		elif e.control.selected_index == 2:
+			page.clean()
+			page.add(developerDetails)
 
 	# navigation bar
 	page.navigation_bar = ft.NavigationBar(
@@ -59,6 +64,8 @@ def main(page: ft.Page):
 		total_flights = (csvreader.line_num)-1 # subtracting the fields name row
 		
 		for row in rows:
+			random_no = random.randint(1,9)
+			showFlights.flight_image.src = f"images/airlogos_{random_no}.png"
 			showFlights.flight_name.value = row[0]
 			showFlights.flight_serialCode.value = row[1]
 			showFlights.flight_model.value = row[2]
@@ -69,6 +76,9 @@ def main(page: ft.Page):
 
 	# creating the instance of FlightRegistration class
 	flightRegistration = FlightRegistration()
+
+	# creating the instance of DeveloperDetails class
+	developerDetails = DeveloperDetails()
 
 	page.add(
 		flightRegistration,
