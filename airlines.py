@@ -1,6 +1,7 @@
 import flet as ft
 from register_flight import FlightRegistration
 from show_flights import ShowFlights
+from developer import DeveloperDetails
 import csv
 
 def main(page: ft.Page):
@@ -31,6 +32,9 @@ def main(page: ft.Page):
 		elif e.control.selected_index == 1:
 			page.clean()
 			show_flights()
+		elif e.control.selected_index == 2:
+			page.clean()
+			page.add(developerDetails)
 
 	# navigation bar
 	page.navigation_bar = ft.NavigationBar(
@@ -69,6 +73,9 @@ def main(page: ft.Page):
 
 	# creating the instance of FlightRegistration class
 	flightRegistration = FlightRegistration()
+
+	# creating the instance of DeveloperDetails class
+	developerDetails = DeveloperDetails()
 
 	page.add(
 		flightRegistration,
