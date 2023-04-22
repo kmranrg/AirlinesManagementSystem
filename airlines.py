@@ -1,4 +1,7 @@
 import flet as ft
+from register_flight import FlightRegistration
+from show_flights import ShowFlights
+import csv
 
 def main(page: ft.Page):
 	page.title = "Airlines Management System"
@@ -7,6 +10,7 @@ def main(page: ft.Page):
 	page.vertical_alignment = "center"
 	page.scroll = "always"
 
+	# navigation appbar
 	page.appbar = ft.AppBar(
 		leading=ft.Row([ft.Container(width=4),ft.Image(src="logo/airplane.png",width=50)]),
 		leading_width=60,
@@ -20,33 +24,54 @@ def main(page: ft.Page):
 		],
 	)
 
-	airplane_name = ft.TextField(hint_text="airplane name",width=300,border_radius=25)
-	airplane_serialCode = ft.TextField(hint_text="airplane serial code",width=300,border_radius=25)
-	airplane_model = ft.TextField(hint_text="airplane model",width=300,border_radius=25)
-	start_country = ft.TextField(hint_text="start country",width=300,border_radius=25)
-	end_country = ft.TextField(hint_text="end country",width=300,border_radius=25)
-	time_duration = ft.TextField(hint_text="time duration",width=300,border_radius=25)
-	submit_flight = ft.ElevatedButton("Submit Flight")
+	def change_navigation_destination(e):
+		if e.control.selected_index == 0:
+			page.clean()
+			page.add(flightRegistration)
+		elif e.control.selected_index == 1:
+			page.clean()
+			show_flights()
 
-	flight_form = ft.Column([ft.Container(height=10),airplane_name,airplane_serialCode,airplane_model,start_country,end_country,time_duration,ft.Container(height=10),submit_flight],horizontal_alignment="center")
+	# navigation bar
+	page.navigation_bar = ft.NavigationBar(
+        destinations=[
+            ft.NavigationDestination(icon=ft.icons.EDIT_NOTE, label="Register Flight"),
+            ft.NavigationDestination(icon=ft.icons.AIRPLANEMODE_ACTIVE, label="Flights"),
+            ft.NavigationDestination(
+                icon=ft.icons.PERSON_ROUNDED,
+                label="Developer",
+            ),
+        ],
+	height=70,
+	on_change=lambda e: change_navigation_destination(e),
+    )
 
-	flight_registration = ft.Container(
-		content=flight_form,
-		gradient= ft.LinearGradient(
-			begin=ft.alignment.top_center,
-			end=ft.alignment.bottom_center,
-			colors=["#eef2fa", "#e0e8fb"],
-		),
-		width=400,
-		height=550,
-		border_radius=40,
-	)
+	def show_flights():
+		showFlights = ShowFlights()
+		filename = "airlines_data.csv"
+		fields = []
+		rows = []
+		with open(filename, 'r') as csvfile:
+			csvreader = csv.reader(csvfile)
+			fields = next(csvreader)
+			for row in csvreader:
+				rows.append(row)
+		total_flights = (csvreader.line_num)-1 # subtracting the fields name row
+		
+		for row in rows:
+			showFlights.flight_name.value = row[0]
+			showFlights.flight_serialCode.value = row[1]
+			showFlights.flight_model.value = row[2]
+			showFlights.flight_starting_airport.value = row[3]
+			showFlights.flight_ending_airport.value = row[4]
+			showFlights.flight_time_duration.value = row[5]
+			page.add(showFlights)
+
+	# creating the instance of FlightRegistration class
+	flightRegistration = FlightRegistration()
 
 	page.add(
-		ft.Container(height=10),
-		ft.Row([ft.Text("Welcome, Register your Flight", style="titleLarge")],alignment="center"),
-		ft.Container(height=10),
-		flight_registration
+		flightRegistration,
 	)
 
 ft.app(target=main,assets_dir="assets")
