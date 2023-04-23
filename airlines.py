@@ -74,6 +74,7 @@ def main(page: ft.Page):
 			fields = next(csvreader)
 			for row in csvreader:
 				rows.append(row)
+		csvfile.close()
 		total_flights = (csvreader.line_num)-1 # subtracting the fields name row
 		show_flights_column = ft.Column()
 		for row in rows:

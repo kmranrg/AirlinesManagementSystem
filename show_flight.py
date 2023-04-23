@@ -13,7 +13,6 @@ class ShowFlight(ft.UserControl):
         self.flight_time_duration = ft.Text(style='headlineLarge',color=ft.colors.BLACK)
         self.flight_image = ft.Image(width=70)
         self.delete_flight = ft.IconButton(icon=ft.icons.DELETE_FOREVER,icon_color=ft.colors.RED,icon_size=35,on_click=self.flight_button_clicked)
-        self.is_delete_flight_button_clicked = False
 
     def flight_button_clicked(self, e):
         df = pd.read_csv('airlines_data.csv')
