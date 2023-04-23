@@ -1,4 +1,5 @@
 import flet as ft
+import pandas as pd
 
 class ShowFlight(ft.UserControl):
 
@@ -11,7 +12,15 @@ class ShowFlight(ft.UserControl):
         self.flight_ending_airport = ft.Text(style='titleLarge')
         self.flight_time_duration = ft.Text(style='headlineLarge',color=ft.colors.BLACK)
         self.flight_image = ft.Image(width=70)
-        self.delete_flight = ft.IconButton(icon=ft.icons.DELETE_FOREVER,icon_color=ft.colors.RED,icon_size=35)
+        self.delete_flight = ft.IconButton(icon=ft.icons.DELETE_FOREVER,icon_color=ft.colors.RED,icon_size=35,on_click=self.flight_button_clicked)
+        self.is_delete_flight_button_clicked = False
+
+    def flight_button_clicked(self, e):
+        df = pd.read_csv('airlines_data.csv')
+        data_to_remove = df[df['Airplane Serial Code']==str(self.flight_serialCode.value)].index
+        df.drop(data_to_remove,inplace=True)
+        df.to_csv('airlines_data.csv',index=False)
+        del self.flight_row_container
 
     def build(self):
         self.flight_row = ft.Row(

@@ -26,15 +26,28 @@ def main(page: ft.Page):
 		],
 	)
 
+	def fab_action(e):
+		page.clean()
+		page.add(show_flights())
+
+	page.floating_action_button = ft.FloatingActionButton(
+		icon=ft.icons.REFRESH,
+		on_click=fab_action,
+		visible=False
+	)
+
 	def change_navigation_destination(e):
 		if e.control.selected_index == 0:
 			page.clean()
+			page.floating_action_button.visible = False
 			page.add(flightRegistration)
 		elif e.control.selected_index == 1:
 			page.clean()
-			page.add(showFlights)
+			page.floating_action_button.visible = True
+			page.add(show_flights())
 		elif e.control.selected_index == 2:
 			page.clean()
+			page.floating_action_button.visible = False
 			page.add(developerDetails)
 
 	# navigation bar
@@ -82,9 +95,6 @@ def main(page: ft.Page):
 
 	# creating the instance of DeveloperDetails class
 	developerDetails = DeveloperDetails()
-
-	# creating the instance of ShowFlight
-	showFlights = show_flights()
 
 	page.add(flightRegistration)
 
