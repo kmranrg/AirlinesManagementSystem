@@ -1,6 +1,6 @@
 import flet as ft
 from register_flight import FlightRegistration
-from show_flights import ShowFlights
+from show_flight import ShowFlight
 from developer import DeveloperDetails
 import csv
 import random
@@ -32,7 +32,7 @@ def main(page: ft.Page):
 			page.add(flightRegistration)
 		elif e.control.selected_index == 1:
 			page.clean()
-			show_flights()
+			page.add(showFlights)
 		elif e.control.selected_index == 2:
 			page.clean()
 			page.add(developerDetails)
@@ -52,7 +52,7 @@ def main(page: ft.Page):
     )
 
 	def show_flights():
-		showFlights = ShowFlights()
+		row_count = 0
 		filename = "airlines_data.csv"
 		fields = []
 		rows = []
@@ -62,17 +62,20 @@ def main(page: ft.Page):
 			for row in csvreader:
 				rows.append(row)
 		total_flights = (csvreader.line_num)-1 # subtracting the fields name row
-		
+		show_flights_column = ft.Column()
 		for row in rows:
+			row_count += 1
+			globals()[f"showFlight_{row_count}"] = ShowFlight()
 			random_no = random.randint(1,9)
-			showFlights.flight_image.src = f"images/airlogos_{random_no}.png"
-			showFlights.flight_name.value = row[0]
-			showFlights.flight_serialCode.value = row[1]
-			showFlights.flight_model.value = row[2]
-			showFlights.flight_starting_airport.value = row[3]
-			showFlights.flight_ending_airport.value = row[4]
-			showFlights.flight_time_duration.value = row[5]
-			page.add(showFlights)
+			globals()[f"showFlight_{row_count}"].flight_image.src = f"images/airlogos_{random_no}.png"
+			globals()[f"showFlight_{row_count}"].flight_name.value = row[0]
+			globals()[f"showFlight_{row_count}"].flight_serialCode.value = row[1]
+			globals()[f"showFlight_{row_count}"].flight_model.value = row[2]
+			globals()[f"showFlight_{row_count}"].flight_starting_airport.value = row[3]
+			globals()[f"showFlight_{row_count}"].flight_ending_airport.value = row[4]
+			globals()[f"showFlight_{row_count}"].flight_time_duration.value = row[5]
+			show_flights_column.controls.append(globals()[f"showFlight_{row_count}"])
+		return show_flights_column
 
 	# creating the instance of FlightRegistration class
 	flightRegistration = FlightRegistration()
@@ -80,8 +83,9 @@ def main(page: ft.Page):
 	# creating the instance of DeveloperDetails class
 	developerDetails = DeveloperDetails()
 
-	page.add(
-		flightRegistration,
-	)
+	# creating the instance of ShowFlight
+	showFlights = show_flights()
+
+	page.add(flightRegistration)
 
 ft.app(target=main,assets_dir="assets")

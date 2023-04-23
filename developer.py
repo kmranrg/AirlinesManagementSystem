@@ -2,11 +2,10 @@ import flet as ft
 
 class DeveloperDetails(ft.UserControl):
     def build(self):
-        developer_photo = ft.CircleAvatar(
-            content=ft.Image(src='logo/dev.png'),
+        developer_photo = ft.Image(
+            src='logo/dev.png',
             height=130,
             width=150,
-            bgcolor=ft.colors.WHITE
         )
         developer_name = ft.Text("Made by SmartGurucool",style='titleLarge',color=ft.colors.BLACK87)
         copyright_details = ft.Text("Copyright © 2023",style='titleMedium',color=ft.colors.BLUE_GREY_900)
